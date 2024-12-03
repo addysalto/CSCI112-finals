@@ -17,7 +17,6 @@ def create_user(username, password, email, user_country):
 def create_title(user_id, title_name, description, duration, genre, tags):
     db = get_db()
     title = {
-        "userId": user_id,
         "titleName": title_name,
         "titleDescription": description,
         "uploadDate": datetime.now(),
