@@ -1,3 +1,4 @@
+from utils import *
 from createScripts import * # functions: create_user, create_title
 from readScripts import * # functions: fetch_user_watch_history, fetch_recommendations
 from updateScripts import * # functions: track_viewing_progress
