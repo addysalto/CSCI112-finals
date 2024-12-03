@@ -1,4 +1,4 @@
-from utils import get_db
+from utils import *
 from datetime import datetime
 
 def track_viewing_progress(user_id, title_id, time_stopped, completed):
