@@ -33,7 +33,9 @@ def test_create_operations():
     event_data = create_event_data(user_id, "login", "User logged in successfully")
     create_event(event_data)
 
-def test_read_operations():
+    
+
+def test_read_operations(username, password):
     # Test reading user by credentials
     user = get_user_by_credentials("john_doe", "securepassword")
     print(user)
@@ -50,14 +52,28 @@ def test_read_operations():
     search_results = search_titles("Inception")
     print(search_results)
 
-def test_update_operations():
+def test_update_operations(username, password, title_name):
+    user = get_user_by_credentials("john_doe", "securepassword")
+    print(user)
+    
+    title = search_titles(title_name)
+    title_id = title[0]["_id"]
+    print(title_id, user["_id"])
+
     # Test updating watch progress
     update_watch_progress(user["_id"], title_id, 120, "completed")
 
     # Test updating title rating
     update_title_rating(user["_id"], title_id, 5, "Amazing movie!")
 
-def test_delete_operations():
+def test_delete_operations(username, password, title_name):
+    user = get_user_by_credentials("john_doe", "securepassword")
+    print(user)
+
+    title = search_titles(title_name)
+    title_id = title[0]["_id"]
+
+    user_id = user["_id"]
     # Test deleting user
     delete_user(user["_id"])
 
@@ -71,17 +87,21 @@ def test_delete_operations():
     delete_rating(user["_id"], title_id)
 
 def main():
+    username = "john_doe"
+    password = "securepassword"
+    title_name = "Inception"
+
     print("Running create operations test...")
     test_create_operations()
 
     print("\nRunning read operations test...")
-    test_read_operations()
+    test_read_operations(username, password)
 
     print("\nRunning update operations test...")
-    test_update_operations()
+    test_update_operations(username, password, title_name)
 
     print("\nRunning delete operations test...")
-    test_delete_operations()
+    test_delete_operations(username, password, title_name)
 
 if __name__ == "__main__":
     main()

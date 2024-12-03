@@ -20,6 +20,9 @@ def update_title_rating(user_id, title_id, rating, comment=None):
     db = conn['projectVibes']  
     ratings_collection = db['rating']
     
+    for rating in ratings_collection.find():
+        print(rating)
+
     # Check if the user has already rated the title, if yes, update it.
     result = ratings_collection.update_one(
         {"userId": user_id, "titleId": title_id},
