@@ -1,4 +1,4 @@
-from utils import get_db
+from utils import *
 from datetime import datetime
 
 def validate_user_login(username, password):
