@@ -1,5 +1,6 @@
 from pymongo import MongoClient
-from datetime import datetime
+from datetime import datetime, timedelta
+import random
 
 def openConnection():
     # MongoDB URI
@@ -14,6 +15,16 @@ def get_current_timestamp():
     # Returns the current timestamp in ISO format
     return datetime.utcnow().isoformat()
 
+def random_date():
+    start_date = datetime(2000, 1, 1) 
+    end_date = datetime(2024, 12, 4)  
+
+    total_days = (end_date - start_date).days
+
+    random_days = random.randint(0, total_days)
+
+    return start_date + timedelta(days=random_days)
+
 def create_login_data(user_id, success):
     # Creates a login log entry
     return {
@@ -22,7 +33,7 @@ def create_login_data(user_id, success):
         "success": success
     }
 
-def create_watch_history_data(user_id, title_id, time_watched=0, completion_status="incomplete"):
+def create_watch_history_data(user_id, title_id, time_watched, completion_status="incomplete"):
     # Creates watch history data entry
     return {
         "userId": user_id,

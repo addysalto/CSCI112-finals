@@ -7,9 +7,9 @@ from utils import * # functions: create_login_data, create_watch_history_data, c
 def test_create_operations():
     # Test creating a user
     user_data = {
-        "username": "john_doe",
-        "password": "securepassword",
-        "email": "john_doe@example.com"
+        'username': "john_doe",
+        'password': "securepassword",
+        'email': "email123@email.com"
     }
     user_id = create_user(user_data)
 
@@ -22,7 +22,7 @@ def test_create_operations():
     title_id = create_title(title_data)
 
     # Test creating watch history
-    watch_history_data = create_watch_history_data(user_id, title_id)
+    watch_history_data = create_watch_history_data(user_id, title_id, random.randint(0,240))
     create_watch_history(watch_history_data)
 
     # Test creating a login log
