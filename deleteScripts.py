@@ -1,4 +1,4 @@
-from utils import get_db
+from utils import *
 
 def delete_user(user_id):
     db = get_db()
