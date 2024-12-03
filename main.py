@@ -1,7 +1,7 @@
-from createScripts import create_user, create_title
-from readScripts import fetch_user_watch_history, fetch_recommendations
-from updateScripts import track_viewing_progress
-from deleteScripts import delete_user, delete_title
+from createScripts import * # functions: create_user, create_title
+from readScripts import * # functions: fetch_user_watch_history, fetch_recommendations
+from updateScripts import * # functions: track_viewing_progress
+from deleteScripts import * # functions: delete_user, delete_title
 
 def main():
     # 1. Create a User
