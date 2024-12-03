@@ -38,6 +38,15 @@ def create_login_log(login_data):
     closeConnection(conn)
     return result.inserted_id
 
+def create_rating(rating_data):
+    conn = openConnection()
+    db = conn['projectVibes'] 
+    ratings_collection = db['rating']
+    result = ratings_collection.insert_one(rating_data)
+    print(f"Rating created with id: {result.inserted_id}")
+    closeConnection(conn)
+    return result.inserted_id
+
 def create_event(event_data):
     conn = openConnection()
     db = conn['projectVibes']  
