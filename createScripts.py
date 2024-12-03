@@ -1,4 +1,4 @@
-from utils import get_db
+from utils import *
 from datetime import datetime
 
 def create_user(username, password, email, user_country):
