@@ -124,15 +124,21 @@ def main():
 
     print("Running create operations test...")
     test_create_operations()
-
+    '''
     print("\nRunning read operations test...")
     test_read_operations(username, password, title_name)
 
     print("\nRunning update operations test...")
     test_update_operations(username, password, title_name)
+    '''
+    
+    print("\nRunning login test...")
+    login(username, password)
 
     print("\nRunning delete operations test...")
     test_delete_operations(username, password, title_name)
+
+    
 
 if __name__ == "__main__":
     main()

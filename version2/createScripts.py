@@ -82,3 +82,29 @@ def create_recommendation_log(recommendationlg_data):
     print(f"Recommendation log created with id: {result.inserted_id}")
     closeConnection(conn)
     return result.inserted_id
+
+
+# Login: Check credentials and create login log
+def login(username, password):
+    conn = openConnection()
+    db = conn['projectViber']
+    userCollection = db['user']
+    
+    user = userCollection.find_one({'username': username})
+
+    if user:
+        if user['password'] == password:
+            login_data = create_loginlg_data(user['_id'], True)
+            login_log = create_login_log(login_data)
+            print("Login successful.")
+            return login_log
+        else:
+            login_data = create_loginlg_data(user['_id', False])
+            login_log = create_login_log(login_data)
+            print("Login failed: Invalid password.")
+            return login_log
+    else:
+        login_data = create_loginlg_data(None, False)
+        login_log = create_login_log(login_data)
+        print("Login failed: Invalid username")
+        return login_log
