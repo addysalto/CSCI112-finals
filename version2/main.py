@@ -103,8 +103,7 @@ def test_delete_operations(username, password, title_name):
     user = get_user_by_credentials(username, password)
     print(user)
 
-    title = search_titles(title_name)
-    title_id = title[0]["_id"]
+    title_id = get_title_id_by_name(title_name)
 
     user_id = user["_id"]
     # Test deleting user
@@ -120,6 +119,8 @@ def test_delete_operations(username, password, title_name):
     delete_rating(user["_id"], title_id)
 
 def main():
+    # testing all crud operations
+    '''
     username = "Dexter"
     password = "dexterdomingo123"
     title_name = "Spider-Man: Beyond the Spider-Verse"
@@ -132,16 +133,121 @@ def main():
     
     print("\nRunning update operations test...")
     test_update_operations(username, password, title_name)
-    
-
-    print("\nRunning login test...")
-    login(username, password)
-    login(username, "wrong_password")
-    login("wrong_username", password)
 
     print("\nRunning delete operations test...")
-    test_delete_operations(username, password, title_name)
+    #test_delete_operations(username, password, title_name)
 
+    '''
+
+    #testing login
+    '''
+    test_username = "Clarke"
+    test_pass = 2268518
+    print("\nRunning login test...")
+    login(test_username, test_pass)
+    login(test_username, "wrong_password")
+    login("wrong_username", test_pass)
+    '''
+
+    #testing search
+    '''
+    test_username = "Clarke"
+    test_pass = 2268518
+    user = get_user_by_credentials(test_username, test_pass)
+    user_id = user['_id']
+    title_name = "spider"
+    search_results = search_titles(user_id, title_name)
+    print(search_results)
+    '''
+
+    #testing get watch history 
+    '''
+    test_username = "Clarke"
+    test_pass = 2268518
+    user = get_user_by_credentials(test_username, test_pass)
+    user_id = user['_id']
+    watch_history, event_log_id = get_user_watch_history(user_id)
+    print("\nRunning get watch history test...")
+    print(watch_history)
+    print(event_log_id)
+    print("Watch history test end...\n") 
+    '''
+
+    #testing recommendations
+    '''
+    test_username = "Clarke"
+    test_pass = 2268518
+    user = get_user_by_credentials(test_username, test_pass)
+    user_id = user['_id']
+    recommendations = get_content_recommendations(user_id)
+    print(recommendations)
+    '''
+
+    #testing watch title
+    '''
+    test_username = "Serena"
+    test_pass = 5548390
+    user = get_user_by_credentials(test_username, test_pass)
+    user_id = user['_id']
+
+    title_name = "Ant-Man"
+    title_id = get_title_id_by_name(title_name)
+
+    watch_history_data = create_watch_history_data(user_id, title_id, random.randint(0,240), completion_status=random.choice(["complete", "incomplete"]))
+    create_watch_history(watch_history_data)
+    '''
+
+    #testing stop title
+    '''
+    test_username = "Serena"
+    test_pass = 5548390
+    user = get_user_by_credentials(test_username, test_pass)
+    user_id = user['_id']
+
+    title_name = "Ant-Man"
+    title_id = get_title_id_by_name(title_name)
+
+    update_watch_progress(user_id, title_id, 120, "completed")
+    '''
+
+    #testing ratings
+    '''
+    test_username = "Serena"
+    test_pass = 5548390
+    user = get_user_by_credentials(test_username, test_pass)
+    user_id = user['_id']
+
+    title_name = "Ant-Man"
+    title_id = get_title_id_by_name(title_name)
+
+    rating_data = create_rating_data(user_id, title_id, random.uniform(0,5))
+    create_rating(rating_data)
+    '''
+
+    #testing most viewed shows by genre
+    '''
+    most_viewed = get_most_viewed_videos_by_genre("Documentary", 5)
+    print(most_viewed)
+    '''
+
+    #testing get user statistics
+    '''
+    test_username = "Clarke"
+    test_pass = 2268518
+    user = get_user_by_credentials(test_username, test_pass)
+    user_id = user['_id']
+    statistics = get_user_statistics(user_id)
+    print(statistics)
+    '''
+    
+    #testing get highest rated titles by country
+    '''
+    country = "Venezuela"
+    highest_rated_shows = get_highest_rated_shows_by_country(country, 5)
+    for show in highest_rated_shows:
+        print(show)
+    '''
+    
     
 
 if __name__ == "__main__":

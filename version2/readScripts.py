@@ -98,10 +98,10 @@ def get_most_viewed_videos_by_genre(genre, n):
 
     pipeline = [
         {
-            "$unwind": "$genres"
+            "$unwind": "$genre"
         },
         {
-            "$match": {"genres": genre}
+            "$match": {"genre": genre}
         },
         {
             "$project": {
@@ -120,7 +120,7 @@ def get_most_viewed_videos_by_genre(genre, n):
 
     n_most_viewed = titles_collection.aggregate(pipeline)
     list_most_viewed = list(n_most_viewed)
-    closeConnection()
+    closeConnection(conn)
     return list_most_viewed
 
 def get_user_statistics(user_id):
@@ -143,7 +143,7 @@ def get_user_statistics(user_id):
         },
         {
             "$project": {
-                "_id": 0,  # Exclude userId from the output
+                "_id": 0,  
                 "totalWatchTime": 1,
                 "numShowsWatched": 1,
             }
@@ -173,6 +173,8 @@ def get_user_statistics(user_id):
     watch_history_stats = list(watch_history_collection.aggregate(watch_history_pipeline))
     ratings_stats = list(ratings_collection.aggregate(ratings_pipeline))
 
+    print(watch_history_stats)
+    print(ratings_stats)
     res = {}
     res.update(watch_history_stats[0])
     res.update(ratings_stats[0])
@@ -181,4 +183,95 @@ def get_user_statistics(user_id):
     return res
 
 
+def get_highest_rated_shows_by_country(input_country, n):
+    conn = openConnection()
+    db = conn['projectVibes']
+    ratings_collection = db['rating']
+    titles_collection = db['title']
+    user_collection = db['user']
 
+    # Define the pipeline
+    pipeline = [
+        {
+            "$match": {
+                "userCountry": input_country
+            }
+        },
+        {
+            "$lookup": {
+                "from": "rating",
+                "localField": "_id",
+                "foreignField": "userId",
+                "as": "user_ratings"
+            }
+        },
+        {
+            "$unwind": {
+                "path": "$user_ratings",
+                "preserveNullAndEmptyArrays": True
+            }
+        },
+        {
+            "$group": {
+                "_id": "$user_ratings.titleId",
+                "avgRating": { "$avg": "$user_ratings.rating" }
+            }
+        },
+        {
+            "$sort": { "avgRating": -1 }
+        },
+        {
+            "$limit": n
+        },
+        {
+            "$lookup": {
+                "from": "title",  
+                "localField": "_id", 
+                "foreignField": "_id", 
+                "as": "title_details"
+            }
+        },
+        {
+            "$unwind": {
+                "path": "$title_details",
+            }
+        },
+        {
+            "$project": {
+                "_id": 0,
+                "titleId": "$_id",
+                "titleName": "$title_details.titleName",
+                "avgRating": 1
+            }
+        }
+    ]
+
+    
+
+    # Execute the aggregation
+    highest_rated_shows = user_collection.aggregate(pipeline)
+    
+    conn.close()
+    
+    return highest_rated_shows
+
+'''
+{
+            "$unwind": {
+                "path": "$user_ratings",
+                "preserveNullAndEmptyArrays": True
+            }
+        },
+        {
+            "$group": {
+                "_id": "$user_ratings.titleId",
+                "avgRating": { "$avg": "$user_ratings.rating" }
+            }
+        },
+        {
+            "$sort": { "avgRating": -1 }
+        },
+        {
+            "$limit": 10
+        },
+'''
