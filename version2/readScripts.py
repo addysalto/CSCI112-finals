@@ -52,6 +52,9 @@ def get_content_recommendations(user_id):
 
     recommendations = watch_history_collection.aggregate(pipeline)
     list_recommendations = list(recommendations)
+    event = "recommendations generated"
+    eventlg = create_eventlg_data(user_id, event)
+    create_event_log(eventlg)
     closeConnection(conn)
     return list_recommendations
 
