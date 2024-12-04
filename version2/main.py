@@ -90,8 +90,7 @@ def test_update_operations(username, password, title_name):
     user = get_user_by_credentials(username, password)
     print(user)
     
-    title = search_titles(title_name)
-    title_id = title[0]["_id"]
+    title_id = get_title_id_by_name(title_name)
     print(title_id, user["_id"])
 
     # Test updating watch progress
@@ -125,23 +124,23 @@ def main():
     password = "dexterdomingo123"
     title_name = "Spider-Man: Beyond the Spider-Verse"
     
-    #print("Running create operations test...")
-    #test_create_operations()
+    print("Running create operations test...")
+    test_create_operations()
     
     print("\nRunning read operations test...")
     test_read_operations(username, password, title_name)
-    '''
+    
     print("\nRunning update operations test...")
     test_update_operations(username, password, title_name)
-    '''
+    
 
     print("\nRunning login test...")
     login(username, password)
     login(username, "wrong_password")
     login("wrong_username", password)
 
-    #print("\nRunning delete operations test...")
-    #test_delete_operations(username, password, title_name)
+    print("\nRunning delete operations test...")
+    test_delete_operations(username, password, title_name)
 
     
 

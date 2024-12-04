@@ -69,10 +69,18 @@ def search_titles(user_id, query):
     search_result = titles_collection.find({"titleName": {"$regex": query, "$options": 'i'}})
     list_search_result = list(search_result)
     resultCount = len(list_search_result)
+    closeConnection(conn)
     searchlg = create_searchlg_data(user_id, query, resultCount)
     create_search_log(searchlg)
-    closeConnection(conn)
     return list_search_result
+
+def get_title_id_by_name(title_name):
+    conn = openConnection()
+    db = conn['projectVibes']  
+    titles_collection = db['title']
+    title_id = titles_collection.find_one({"titleName": title_name})
+    closeConnection(conn)
+    return title_id
 
 def get_user_login_logs(user_id):
     conn = openConnection()
