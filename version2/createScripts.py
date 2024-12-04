@@ -87,11 +87,10 @@ def create_recommendation_log(recommendationlg_data):
 # Login: Check credentials and create login log
 def login(username, password):
     conn = openConnection()
-    db = conn['projectViber']
-    userCollection = db['user']
-    
-    user = userCollection.find_one({'username': username})
-
+    db = conn['projectVibes']  
+    users_collection = db['user']
+    user = users_collection.find_one({"username": username})
+    closeConnection(conn)
     if user:
         if user['password'] == password:
             login_data = create_loginlg_data(user['_id'], True)
@@ -99,7 +98,7 @@ def login(username, password):
             print("Login successful.")
             return login_log
         else:
-            login_data = create_loginlg_data(user['_id', False])
+            login_data = create_loginlg_data(user['_id'], False)
             login_log = create_login_log(login_data)
             print("Login failed: Invalid password.")
             return login_log
@@ -108,3 +107,4 @@ def login(username, password):
         login_log = create_login_log(login_data)
         print("Login failed: Invalid username")
         return login_log
+
