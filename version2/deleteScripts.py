@@ -10,6 +10,15 @@ def delete_user(user_id):
     closeConnection(conn)
     return result.deleted_count
 
+def delete_title(title_id):
+    conn = openConnection()
+    db = conn['projectVibes']  
+    users_collection = db['title']
+    result = users_collection.delete_one({"_id": title_id})
+    print(f"User deleted: {result.deleted_count} document(s) deleted.")
+    closeConnection(conn)
+    return result.deleted_count
+
 def delete_watch_history(user_id, title_id):
     conn = openConnection()
     db = conn['projectVibes'] 
@@ -32,6 +41,15 @@ def delete_rating(user_id, title_id):
     conn = openConnection()
     db = conn['projectVibes']  
     ratings_collection = db['rating']
+    result = ratings_collection.delete_one({"userId": user_id, "titleId": title_id})
+    print(f"Rating deleted: {result.deleted_count} document(s) deleted.")
+    closeConnection(conn)
+    return result.deleted_count
+
+def delete_search_log(search_log_id):
+    conn = openConnection()
+    db = conn['projectVibes']  
+    ratings_collection = db['searchLog']
     result = ratings_collection.delete_one({"userId": user_id, "titleId": title_id})
     print(f"Rating deleted: {result.deleted_count} document(s) deleted.")
     closeConnection(conn)

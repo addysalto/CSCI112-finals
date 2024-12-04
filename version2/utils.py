@@ -33,23 +33,32 @@ def create_login_data(user_id, success):
         "success": success
     }
 
-def create_watch_history_data(user_id, title_id, time_watched, completion_status="incomplete"):
+def create_watch_history_data(user_id, title_id, time_watched, completion_status="incomplete", last_updated=None):
     # Creates watch history data entry
     return {
         "userId": user_id,
         "titleId": title_id,
-        "timeWatched": time_watched,
+        "timeStopped": time_watched,
         "completionStatus": completion_status,
         "lastUpdated": get_current_timestamp()
     }
 
-def create_event_data(user_id, event_type, details=None):
+def create_eventlg_data(user_id, event_type, details=None):
     # Creates event log data
     return {
         "userId": user_id,
-        "eventType": event_type,
+        "event_type": event_type,
         "details": details,
         "timestamp": get_current_timestamp()
+    }
+
+def create_searchlg_data(user_id, searchQuery, resultsCount):
+    # Creates search log data
+    return {
+        "userId": user_id,
+        "searchQuery": searchQuery,
+        "searchedAt": get_current_timestamp(),
+        "resultsCount": resultsCount
     }
 
 def create_rating_data(user_id, title_id, rating, comment=None):
@@ -59,13 +68,20 @@ def create_rating_data(user_id, title_id, rating, comment=None):
         "titleId": title_id,
         "rating": rating,
         "comment": comment,
-        "timestamp": get_current_timestamp()
+        "lastUpdated": get_current_timestamp()
     }
 
-def create_recommendation_log(user_id, recommendation_data):
+def create_loginlg_data(user_id, status):
+    # Creates login log data
+    return {
+        "userId": user_id,
+        "status": status
+    }
+
+def create_recommendationlg_data(user_id, recommendations):
     # Creates a recommendation log entry
     return {
         "userId": user_id,
-        "recommendationData": recommendation_data,
+        "recommendationData": recommendations,
         "timestamp": get_current_timestamp()
     }

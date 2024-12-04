@@ -55,3 +55,30 @@ def create_event(event_data):
     print(f"Event created with id: {result.inserted_id}")
     closeConnection(conn)
     return result.inserted_id
+
+def create_search_log(search_data):
+    conn = openConnection()
+    db = conn['projectVibes']  
+    event_collection = db['contentSearchLog']
+    result = event_collection.insert_one(search_data)
+    print(f"Search log created with id: {result.inserted_id}")
+    closeConnection(conn)
+    return result.inserted_id
+
+def create_event_log(eventlg_data):
+    conn = openConnection()
+    db = conn['projectVibes']  
+    event_collection = db['eventLog']
+    result = event_collection.insert_one(eventlg_data)
+    print(f"Event log created with id: {result.inserted_id}")
+    closeConnection(conn)
+    return result.inserted_id
+
+def create_recommendation_log(recommendationlg_data):
+    conn = openConnection()
+    db = conn['projectVibes']  
+    event_collection = db['recommendationLog']
+    result = event_collection.insert_one(recommendationlg_data)
+    print(f"Recommendation log created with id: {result.inserted_id}")
+    closeConnection(conn)
+    return result.inserted_id

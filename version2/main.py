@@ -7,37 +7,68 @@ from utils import * # functions: create_login_data, create_watch_history_data, c
 def test_create_operations():
     # Test creating a user
     user_data = {
-        'username': "john_doe",
-        'password': "securepassword",
-        'email': "email123@email.com"
+        "username": "Dexter",
+        "password": "dexterdomingo123",
+        "email": "dex_123@daido.com",
+        "dateCreated": random_date(),
+        "userCountry": "Philippines",
     }
     user_id = create_user(user_data)
 
     # Test creating a title
     title_data = {
-        "titleName": "Inception",
-        "genre": "Sci-Fi",
-        "releaseDate": "2010-07-16"
+        "titleName": "Spider-Man: Beyond the Spider-Verse",
+        "titleDescription": "The last of the spider verse series",
+        "uploadDate": random_date(),
+        "duration": 150,
+        "titleType": "Movie",
+        "viewCount": 9196236,
+        "ratingAverage": 4.8713,
+        "ratingCount": 98893,
+        "totalWatchTime": 376822876,
+        "dateReleased": random_date(),
+        "genre": [
+        "Action",
+        "Western"
+        ],
+        "tags": [
+        "Cyberpunk",
+        "FantasyAdventure",
+        "Coming-of-Age",
+        "Romance"
+        ]
     }
     title_id = create_title(title_data)
 
     # Test creating watch history
-    watch_history_data = create_watch_history_data(user_id, title_id, random.randint(0,240))
+    watch_history_data = create_watch_history_data(user_id, title_id, random.randint(0,240), completion_status=random.choice(["complete", "incomplete"]))
     create_watch_history(watch_history_data)
 
     # Test creating a login log
-    login_data = create_login_data(user_id, True)
+    login_data = create_loginlg_data(user_id, True)
     create_login_log(login_data)
 
+    # Test creating a rating
+    rating_data = create_rating_data(user_id, title_id, random.uniform(0,5))
+    create_rating(rating_data)
+
+    # Test creating a search log
+    search_data = create_searchlg_data(user_id, "spider", random.randint(1,10))
+    create_search_log(search_data)
+
     # Test creating an event log
-    event_data = create_event_data(user_id, "login", "User logged in successfully")
+    event_data = create_eventlg_data(user_id, "login", "User logged in successfully")
     create_event(event_data)
+
+    # Test creating a recommendation log
+    recommendation_data = create_recommendationlg_data(user_id, ["sample_id_1", "sample_id_2", "sample_id_3"])
+    create_recommendation_log(recommendation_data)
 
     
 
-def test_read_operations(username, password):
+def test_read_operations(username, password, title_name):
     # Test reading user by credentials
-    user = get_user_by_credentials("john_doe", "securepassword")
+    user = get_user_by_credentials(username, password)
     print(user)
 
     # Test reading watch history
@@ -49,11 +80,11 @@ def test_read_operations(username, password):
     print(recommendations)
 
     # Test search for titles
-    search_results = search_titles("Inception")
+    search_results = search_titles(title_name)
     print(search_results)
 
 def test_update_operations(username, password, title_name):
-    user = get_user_by_credentials("john_doe", "securepassword")
+    user = get_user_by_credentials(username, password)
     print(user)
     
     title = search_titles(title_name)
@@ -67,7 +98,7 @@ def test_update_operations(username, password, title_name):
     update_title_rating(user["_id"], title_id, 5, "Amazing movie!")
 
 def test_delete_operations(username, password, title_name):
-    user = get_user_by_credentials("john_doe", "securepassword")
+    user = get_user_by_credentials(username, password)
     print(user)
 
     title = search_titles(title_name)
@@ -87,15 +118,15 @@ def test_delete_operations(username, password, title_name):
     delete_rating(user["_id"], title_id)
 
 def main():
-    username = "john_doe"
-    password = "securepassword"
-    title_name = "Inception"
+    username = "Dexter"
+    password = "dexterdomingo123"
+    title_name = "Spider-Man: Beyond the Spider-Verse"
 
     print("Running create operations test...")
     test_create_operations()
 
     print("\nRunning read operations test...")
-    test_read_operations(username, password)
+    test_read_operations(username, password, title_name)
 
     print("\nRunning update operations test...")
     test_update_operations(username, password, title_name)

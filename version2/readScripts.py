@@ -71,3 +71,5 @@ def get_user_login_logs(user_id):
     list_login_logs = list(login_logs)
     closeConnection(conn)
     return list_login_logs
+
+
