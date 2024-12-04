@@ -116,6 +116,69 @@ def get_most_viewed_videos_by_genre(genre, n):
         {
             "$limit": n
         },
-        
     ]
+
+    n_most_viewed = titles_collection.aggregate(pipeline)
+    list_most_viewed = list(n_most_viewed)
+    closeConnection()
+    return list_most_viewed
+
+def get_user_statistics(user_id):
+    conn = openConnection()
+    db = conn['projectVibes']  
+    watch_history_collection = db['watchHistory']
+    ratings_collection = db['rating']
+
+    # Aggregate user's watch history and ratings to build recommendations
+    watch_history_pipeline = [
+        {
+            "$match": {"userId": user_id} 
+        },
+        {
+            "$group": {
+                "_id": "$userId",
+                "totalWatchTime": { "$sum": "$timeStopped"} ,
+                "numShowsWatched": { "$sum": 1 }
+            }
+        },
+        {
+            "$project": {
+                "_id": 0,  # Exclude userId from the output
+                "totalWatchTime": 1,
+                "numShowsWatched": 1,
+            }
+        }
+    ]
+
+    ratings_pipeline = [
+        {
+            "$match": {"userId": user_id} 
+        },
+        {
+            "$group": {
+                "_id": "$userId",
+                "numRatingsMade": {"$sum": 1}, 
+                "avgRating": {"$avg": "$rating"} 
+            }
+        },
+        {
+            "$project": {
+                "_id": 0,  
+                "numRatingsMade": 1,
+                "avgRating": 1
+            }
+        }
+    ]
+
+    watch_history_stats = list(watch_history_collection.aggregate(watch_history_pipeline))
+    ratings_stats = list(ratings_collection.aggregate(ratings_pipeline))
+
+    res = {}
+    res.update(watch_history_stats[0])
+    res.update(ratings_stats[0])
+
+    closeConnection(conn)
+    return res
+
+
 
