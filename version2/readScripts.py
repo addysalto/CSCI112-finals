@@ -91,4 +91,31 @@ def get_user_login_logs(user_id):
     closeConnection(conn)
     return list_login_logs
 
+def get_most_viewed_videos_by_genre(genre, n):
+    conn = openConnection()
+    db = conn['projectVibes']  
+    titles_collection = db['title']
+
+    pipeline = [
+        {
+            "$unwind": "$genres"
+        },
+        {
+            "$match": {"genres": genre}
+        },
+        {
+            "$project": {
+                "_id": 1,
+                "titleName": 1,
+                "viewCount": 1,
+            }
+        },
+        {
+            "$sort": { "viewCount": -1 }
+        },
+        {
+            "$limit": n
+        },
+        
+    ]
 
