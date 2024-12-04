@@ -2,7 +2,6 @@ from pymongo import MongoClient
 from utils import *
 from createScripts import *
 from datetime import datetime
-from createScripts import create_event_log
 
 def get_user_by_credentials(username, password):
     conn = openConnection()
