@@ -2,6 +2,7 @@ from pymongo import MongoClient
 from utils import *
 from createScripts import *
 from datetime import datetime
+from createScripts import create_event_log
 
 def get_user_by_credentials(username, password):
     conn = openConnection()
@@ -18,7 +19,11 @@ def get_user_watch_history(user_id):
     watch_history = watch_history_collection.find({"userId": user_id})
     list_watch_history = list(watch_history)
     closeConnection(conn)
-    return list_watch_history
+
+    # Create event log to track watch history access
+    eventlg_data = create_eventlg_data(user_id, "watch_history_access")
+    event_log_id = create_event_log(eventlg_data)
+    return list_watch_history, event_log_id
 
 def get_content_recommendations(user_id):
     conn = openConnection()

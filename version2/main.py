@@ -72,8 +72,11 @@ def test_read_operations(username, password, title_name):
     print(user)
 
     # Test reading watch history
-    watch_history = get_user_watch_history(user["_id"])
+    watch_history, event_log_id = get_user_watch_history(user["_id"])
+    print("\nRunning get watch history test...")
     print(watch_history)
+    print(event_log_id)
+    print("Watch history test end...\n") 
 
     # Test content recommendations
     recommendations = get_content_recommendations(user["_id"])
@@ -121,13 +124,13 @@ def main():
     username = "Dexter"
     password = "dexterdomingo123"
     title_name = "Spider-Man: Beyond the Spider-Verse"
-    '''
-    print("Running create operations test...")
-    test_create_operations()
+    
+    #print("Running create operations test...")
+    #test_create_operations()
     
     print("\nRunning read operations test...")
     test_read_operations(username, password, title_name)
-
+    '''
     print("\nRunning update operations test...")
     test_update_operations(username, password, title_name)
     '''
