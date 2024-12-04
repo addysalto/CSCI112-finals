@@ -1,5 +1,6 @@
 from pymongo import MongoClient
 from utils import *
+from createScripts import *
 from datetime import datetime
 
 def get_user_by_credentials(username, password):
@@ -54,12 +55,15 @@ def get_content_recommendations(user_id):
     closeConnection(conn)
     return list_recommendations
 
-def search_titles(query):
+def search_titles(user_id, query):
     conn = openConnection()
     db = conn['projectVibes']  
     titles_collection = db['title']
     search_result = titles_collection.find({"titleName": {"$regex": query, "$options": 'i'}})
     list_search_result = list(search_result)
+    resultCount = len(list_search_result)
+    searchlg = create_searchlg_data(user_id, query, resultCount)
+    create_search_log(searchlg)
     closeConnection(conn)
     return list_search_result
 

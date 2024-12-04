@@ -80,7 +80,7 @@ def test_read_operations(username, password, title_name):
     print(recommendations)
 
     # Test search for titles
-    search_results = search_titles(title_name)
+    search_results = search_titles(user["_id"], title_name)
     print(search_results)
 
 def test_update_operations(username, password, title_name):
